@@ -64,3 +64,24 @@ Double-click `set-win-font.reg` and sign out. Everything goes back to normal.
 
 - Windows 10 or 11
 - Admin privileges (for registry changes)
+
+## Command‑line Usage
+
+You can also perform the registry import from PowerShell with elevation. This is useful when scripting or if you prefer the terminal:
+
+```powershell
+# prompt for UAC and import the .reg file
+Start-Process -FilePath reg.exe \
+    -ArgumentList 'import',"\"C:\\Users\\ltanedo\\projects\\windows-font-replacer\\set-verdana-font.reg\"" \
+    -Verb RunAs
+```
+
+After running the elevated import, verify the substitution has been written:
+
+```powershell
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes" /v "Segoe UI"
+# should output:
+# HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\FontSubstitutes
+#     Segoe UI    REG_SZ    Verdana Pro
+```
+
